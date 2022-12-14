@@ -2,52 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Vis 1</title>
-    <link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Population-Chart</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- <svg width="100" height="100">
-        <circle cx="25" cy="25" r="20" stroke="green" stroke-width="4" fill="yellow" />
-    </svg> -->
-    <script type="x-shader/x-vertex" id="vertexShader">
-
-    			varying vec3 vWorldPosition;
-    
-    			void main() {
-    
-    				vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
-    				vWorldPosition = worldPosition.xyz;
-    
-    				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-    
-    			}
-    
-    		</script>
-
-    <script type="x-shader/x-fragment" id="fragmentShader">
-
-    			uniform vec3 topColor;
-    			uniform vec3 bottomColor;
-    			uniform float offset;
-    			uniform float exponent;
-    
-    			varying vec3 vWorldPosition;
-    
-    			void main() {
-    
-    				float h = normalize( vWorldPosition + offset ).y;
-    				gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h, 0.0 ), exponent ), 0.0 ) ), 1.0 );
-    
-    			}
-    
-    		</script>
-    <div class="container"></div>
-    <canvas class="webgl"></canvas>
-    <script src="main.js"></script>
+	<div class="container"></div>
+	<canvas class="webgl"></canvas>
+	<script src="main.js"></script>
 </body>
 
 </html>
