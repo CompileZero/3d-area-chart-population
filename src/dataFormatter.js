@@ -18,7 +18,7 @@ export async function formatData(dataPath) {
     .filter((d) => d.Year === 1960)
     .sort((a, b) => d3.descending(a.Count, b.Count));
 
-  console.log(firstYearSorted);
+  const finalData = [];
 
   // Create an array of objects for the top 30 countries
   for (let i = 0; i < 30; i++) {
