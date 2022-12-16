@@ -4,39 +4,35 @@ export function renderAreaChart(data) {
   let svg = d3
     .select(".container")
     .append("svg")
-    .attr("width", 550)
+    .attr("width", 500)
     .attr("height", 500);
 
   const tParser = d3.timeParse("%Y");
 
-  const csvdata = data.Values;
+  const allYearsData = data.Values;
 
-  var x = d3
+  let x = d3
     .scaleTime()
     .domain(
-      d3.extent(csvdata, function (d) {
+      d3.extent(allYearsData, function (d) {
         return tParser(d.Year);
       })
     )
-    .range([0, 550]);
+    .range([0, 500]);
 
-  var y = d3.scaleSqrt().domain([0, 2000000000]).range([300, 0]);
+  let y = d3.scaleSqrt().domain([0, 1000000000]).range([500, 0]);
 
   svg
     .append("path")
-    .datum(csvdata)
+    .datum(allYearsData)
     .attr("fill", "#cce5df")
     .attr(
       "d",
       d3
         .area()
-        .x(function (d) {
-          return x(tParser(d.Year));
-        })
+        .x((d) => x(tParser(d.Year)))
         .y0(y(0))
-        .y1(function (d) {
-          return y(d.Count) - 250;
-        })
+        .y1((d) => y(d.Count))
         .curve(d3.curveCardinalOpen)
     );
 }
