@@ -5,11 +5,9 @@ async function main() {
   const allData = await formatData("./population.csv");
   console.log(allData);
 
+  // Render 2D Area Charts
   for (let i = 0; i < allData.length; i++) {
-    if ([0, 1, 28, 29].includes(i)) {
-      await renderAreaChart(allData[i]);
-    }
-    // console.log(allData);
+    await renderAreaChart(allData[i]);
   }
 }
 

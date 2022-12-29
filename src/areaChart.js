@@ -1,31 +1,29 @@
 import * as d3 from "d3";
+import { randomExponential } from "d3";
 
 export function renderAreaChart(data) {
   let svg = d3
     .select(".container")
     .append("svg")
     .attr("width", 500)
-    .attr("height", 500);
+    .attr("height", 1500);
 
   const tParser = d3.timeParse("%Y");
-
   const allYearsData = data.Values;
 
   let x = d3
     .scaleTime()
-    .domain(
-      d3.extent(allYearsData, function (d) {
-        return tParser(d.Year);
-      })
-    )
+    .domain(d3.extent(allYearsData, (d) => tParser(d.Year)))
     .range([0, 500]);
 
-  let y = d3.scaleSqrt().domain([0, 1000000000]).range([500, 0]);
+  console.log(d3.extent(allYearsData, (d) => d.Count));
+
+  let y = d3.scalePow().exponent(0.2).domain([0, 1400000000]).range([1500, 0]);
 
   svg
     .append("path")
     .datum(allYearsData)
-    .attr("fill", "#cce5df")
+    .attr("fill", "#ffffff")
     .attr(
       "d",
       d3
