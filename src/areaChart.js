@@ -8,7 +8,7 @@ export function renderAreaChart(data) {
     .select(".container")
     .append("svg")
     .attr("width", 500)
-    .attr("height", 500);
+    .attr("height", 1500);
 
   const timeParser = d3.timeParse("%Y");
 
@@ -19,7 +19,7 @@ export function renderAreaChart(data) {
 
   console.log(d3.extent(allYearsData, (d) => d.Count));
 
-  let y = d3.scaleLinear().domain([0, 1000000000]).range([500, 0]);
+  let y = d3.scalePow().exponent(0.3).domain([0, 1400000000]).range([1500, 0]);
 
   svg
     .append("path")
