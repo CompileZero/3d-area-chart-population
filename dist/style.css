@@ -5,3 +5,7 @@ body {
 svg {
   border: 1px solid orange;
 }
+
+.container {
+  display: none;
+}
