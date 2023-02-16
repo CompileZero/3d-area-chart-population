@@ -12,17 +12,23 @@ export function render3dChart(allData) {
     antialias: true,
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  let camera = new THREE.PerspectiveCamera();
+  const cameraOffset = 20;
+  let camera = new THREE.OrthographicCamera(
+    -cameraOffset,
+    cameraOffset,
+    cameraOffset,
+    -cameraOffset,
+    1,
+    1000
+  );
 
   // Add debug controls
   const gui = new dat.GUI();
-  const cameraFolder = gui.addFolder("Camera");
-  cameraFolder.add(camera.position, "x").min(-10).max(10).step(0.01);
-  cameraFolder.add(camera.position, "y").min(-10).max(10).step(0.01);
-  cameraFolder.add(camera.position, "z").min(-10).max(10).step(0.01);
 
   scene.add(new THREE.GridHelper(100, 100));
-  camera.position.set(-10, 20, 10);
+  camera.position.set(-10, 10, 10);
+  // camera.zoom = -2;
+  // camera.updateProjectionMatrix();
   camera.lookAt(0, 0, 0);
 
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -48,8 +54,8 @@ export function render3dChart(allData) {
     });
 
     const cubeMaterial = new THREE.MeshStandardMaterial({
-      // color: allColors[svgList.length - i - 1],
-      color: 0xffffff,
+      color: allColors[svgList.length - i - 1],
+      // color: 0xffffff,
     });
 
     let mesh = new THREE.Mesh(geometry2, cubeMaterial);
@@ -57,15 +63,37 @@ export function render3dChart(allData) {
     mesh.scale.set(0.01, 0.01, 0.01);
     mesh.rotation.set(0, Math.PI, Math.PI);
     mesh.position.set(0, 15, -10 + i / 3);
-    // mesh.castShadow = true; //default is false
 
-    // mesh.receiveShadow = true;
+    mesh.castShadow = true; //default is false
+    mesh.receiveShadow = true;
   }
 
-  // const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-  // dirLight.position.set(5, 30, 36);
-  // dirLight.rotation.set(2, 2, 0);
-  // scene.add(dirLight);
+  const spotLight = new THREE.SpotLight(0xffffff, 1);
+  spotLight.position.set(5, 17, 31);
+
+  const spotLight2 = new THREE.SpotLight(0xffffff, 0.8);
+  spotLight2.position.set(-25, 3, 2);
+
+  const spotLight3 = new THREE.SpotLight(0xffffff, 0.2);
+  spotLight3.position.set(6, 14, 35);
+
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  spotLight.castShadow = true;
+  spotLight2.castShadow = true;
+  spotLight3.castShadow = true;
+
+  spotLight3.shadow.mapSize.width = 1024;
+  spotLight3.shadow.mapSize.height = 1024;
+  spotLight.shadow.mapSize.height = 1024;
+  spotLight.shadow.mapSize.width = 1024;
+  spotLight2.shadow.mapSize.height = 1024;
+  spotLight2.shadow.mapSize.width = 1024;
+
+  scene.add(spotLight);
+  scene.add(spotLight2);
+  scene.add(spotLight3);
 
   function animate() {
     requestAnimationFrame(animate);
